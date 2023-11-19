@@ -6,14 +6,39 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
+/**
+ * Represents a client that connects to a server and sends/receives messages.
+ */
 public class Client {
+    /**
+     * The port number used for the client connection.
+     */
     private static int PORT = 1500;
 
+    /**
+     * The name of the client.
+     */
     private String name;
+
+    /**
+     * Represents a socket connection.
+     */
     private Socket socket;
+
+    /**
+     * A class for reading text from a character-input stream.
+     * This class provides methods for reading lines of text from a character-input stream in a buffered manner.
+     */
     private BufferedReader bufferedReader;
+
+    /**
+     * The BufferedWriter class writes text to a character-output stream, buffering characters so as to provide for the efficient writing of single characters, arrays, and strings.
+     */
     private BufferedWriter bufferedWriter;
 
+    /**
+     * Represents a client that connects to a server using a socket.
+     */
     public Client(String name) {
         this.name = name;
         try {
@@ -45,7 +70,7 @@ public class Client {
             bufferedWriter.newLine();
             bufferedWriter.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            this.close();
         }
     }
 
@@ -56,13 +81,14 @@ public class Client {
                 while (socket.isConnected()) {
                     try {
                         String message = bufferedReader.readLine();
-                        if (message.equals("quit"))
+                        if (message == null) {
+                            System.out.println("Server stopped");
                             close();
-                        else {
-                            System.out.println(message);
                         }
+                        System.out.println(message);
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        System.out.println("Error");
+                        close();
                     }
                 }
             }
@@ -75,8 +101,8 @@ public class Client {
             bufferedReader.close();
             bufferedWriter.close();
             socket.close();
+            System.exit(0);
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 

@@ -3,11 +3,18 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+/**
+ * The Server class represents a server that listens for client connections and
+ * handles them using multiple threads.
+ */
 public class Server {
     private static int PORT = 1500;
     private ServerSocket serverSocket;
     private ArrayList<ClientHandler> clients = new ArrayList<>();
 
+    /**
+     * Constructs a new Server object and initializes the server socket.
+     */
     public Server() {
         try {
             this.serverSocket = new ServerSocket(PORT);
@@ -29,6 +36,9 @@ public class Server {
         }
     }
 
+    /**
+     * Closes the server connection.
+     */
     public void close() {
         try {
             this.serverSocket.close();
